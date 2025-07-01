@@ -1,10 +1,10 @@
-# Python
-
 # VSCode for Python
 
-## 1. Install Python Extension
+## 1. Install Extensions
 
-- Install the official Python extension for VSCode from Microsoft.
+- Install the official 'Python' extension for VSCode from Microsoft.
+- Install the official 'Jupyter' extension for VSCode from Microsoft.
+- Install the official 'SQLite' extension for VSCode from alexcvzz.
 
 ## 2. Configure Virtual Environment
 
