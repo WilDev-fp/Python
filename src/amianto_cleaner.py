@@ -37,11 +37,17 @@ class AmiantoCleaner:
             )
             self.df[col] = pd.to_numeric(self.df[col], errors='coerce')
 
-    def _fillna_values(self):
-        if 'impianto' in self.df.columns:
-            self.df['impianto'] = self.df['impianto'].fillna('N.A.')
-        if 'presenza_di_fibre' in self.df.columns:
-            self.df['presenza_di_fibre'] = self.df['presenza_di_fibre'].fillna('N.A.')
+    """
+    Riempi i valori mancanti (NaN) nelle colonne specificate con il valore dato.
+
+    Args:
+        columns (list): lista delle colonne su cui applicare il riempimento.
+        value (str, opzionale): valore con cui riempire i NaN (default 'N.A.')
+    """
+    def _fillna_values(self, columns, value='N.A.'):
+        for col in columns:
+            if col in self.df.columns:
+                self.df[col] = self.df[col].fillna(value)
 
     def _standardize_strings(self, columns):
         for col in columns:
@@ -85,7 +91,7 @@ class AmiantoCleaner:
         self._rename_columns()
         self._to_datetime('data_campionamento')
         self._to_float(['limite_normativo', 'concentrazione'])
-        self._fillna_values()
+        self._fillna_values(['impianto', 'presenza_di_fibre'])
         self._standardize_strings(['presenza_di_fibre', 'comune', 'esito_normativo'])
         self._drop_empty_rows('concentrazione')
         return self.df
