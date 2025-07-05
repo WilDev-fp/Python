@@ -1,0 +1,17 @@
+# Ambiente virtuale
+/.economia_pesca_it_venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+
+# File temporanei editor
+.vscode/
+*.swp
+
+# Database temporanei (se SQLite o simili, aggiungi qui il nome del file db)
+data/*.db
+
+# File di configurazione personali (se vuoi ignorare anche secrets o config locali)
+.env
