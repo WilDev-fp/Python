@@ -1,8 +1,11 @@
+import time
+
 from utils.csv_loader import CsvLoader
 from utils.csv_renamer import CsvRenamer
 from utils.csv_numeric_caster import CsvNumericCaster
 from utils.csv_transformer import CsvTransformer
 from services.csv_exporter import CsvExporter
+from context.sqlite_uploader import SqliteUploader
 
 csv_path_andamento = "./static/Andamento occupazione del settore della pesca per regione_0.csv"
 csv_path_importanza = "./static/Importanza economica del settore della pesca per regione.csv"
@@ -39,7 +42,11 @@ df_andamento_numeric_casted = caster.to_numeric(num_cols)
 cleaner = CsvTransformer(df_andamento_numeric_casted)
 df_andamento_normalized = cleaner.get_cleaned()
 
+# Caricamento dati
+#SqliteUploader().upload_dataframe(df_andamento_normalized, 'andamento')
 exporter.export(df_andamento_normalized, 'andamento_clean.csv')
+time.sleep(1)
+SqliteUploader().upload_csv('./static/output/andamento_clean.csv', 'andamento')
 
 
 # ETL Importanza
@@ -71,7 +78,11 @@ df_importanza_numeric_casted = caster.to_numeric(num_cols)
 cleaner = CsvTransformer(df_importanza_numeric_casted)
 df_importanza_normalized = cleaner.get_cleaned()
 
+# Caricamento dati
+#SqliteUploader().upload_dataframe(df_importanza_normalized, 'importanza')
 exporter.export(df_importanza_normalized, 'importanza_clean.csv')
+time.sleep(1)
+SqliteUploader().upload_csv('./static/output/importanza_clean.csv', 'importanza')
 
 
 # ETL Produttività
@@ -102,4 +113,7 @@ df_produttivita_numeric_casted = caster.to_numeric(num_cols)
 
 cleaner = CsvTransformer(df_produttivita_numeric_casted)
 df_produttivita_normalized = cleaner.get_cleaned()
+
+# Caricamento dati
+SqliteUploader().upload_dataframe(df_produttivita_normalized, 'produttivita')
 exporter.export(df_produttivita_normalized, 'produttivita_clean.csv')
