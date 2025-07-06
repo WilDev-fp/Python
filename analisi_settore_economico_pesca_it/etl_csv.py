@@ -6,6 +6,7 @@ from utils.csv_numeric_caster import CsvNumericCaster
 from utils.csv_transformer import CsvTransformer
 from services.csv_exporter import CsvExporter
 from context.sqlite_uploader import SqliteUploader
+from context.aggregazione_regioni import RegionTableManager
 
 csv_path_andamento = "./static/Andamento occupazione del settore della pesca per regione_0.csv"
 csv_path_importanza = "./static/Importanza economica del settore della pesca per regione.csv"
@@ -117,3 +118,32 @@ df_produttivita_normalized = cleaner.get_cleaned()
 # Caricamento dati
 SqliteUploader().upload_dataframe(df_produttivita_normalized, 'produttivita')
 exporter.export(df_produttivita_normalized, 'produttivita_clean.csv')
+
+# Creazione tabella regioni
+mapping_regioni = [
+    (1, "Piemonte", "Nord-ovest"),
+    (2, "Valle d'Aosta", "Nord-ovest"),
+    (3, "Lombardia", "Nord-ovest"),
+    (4, "Liguria", "Nord-ovest"),
+    (5, "Trentino-Alto Adige", "Nord-est"),
+    (6, "Veneto", "Nord-est"),
+    (7, "Friuli-Venezia Giulia", "Nord-est"),
+    (8, "Emilia-Romagna", "Nord-est"),
+    (9, "Toscana", "Centro"),
+    (10, "Umbria", "Centro"),
+    (11, "Marche", "Centro"),
+    (12, "Lazio", "Centro"),
+    (13, "Abruzzo", "Centro"),
+    (14, "Molise", "Sud"),
+    (15, "Campania", "Sud"),
+    (16, "Puglia", "Sud"),
+    (17, "Basilicata", "Sud"),
+    (18, "Calabria", "Sud"),
+    (19, "Sicilia", "Isole"),
+    (20, "Sardegna", "Isole")
+]
+
+regioni = RegionTableManager()
+regioni.insert_regions(mapping_regioni)
+
+print(regioni.get_all())
