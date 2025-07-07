@@ -42,6 +42,9 @@
   pip install -r requirements.txt
   pip install fastapi
   pip install uvicorn
+  pip install pandas
+  pip install jupyter
+  pip install matplotlib
   ```
 
 - Avvia il server di sviluppo FastAPI:
