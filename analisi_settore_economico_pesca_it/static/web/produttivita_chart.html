@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Produttività Nazionale della Pesca - Chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 40px;
+        background: #f4f4f4;
+      }
+      .chart-container {
+        background: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px #0002;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Produttività Nazionale della Pesca per Anno</h1>
+    <div class="chart-container">
+      <canvas id="prodChart" width="800" height="400"></canvas>
+    </div>
+    <script>
+      async function loadChartData() {
+        // Cambia l'URL se usi una porta o un dominio diverso!
+        const response = await fetch(
+          'http://127.0.0.1:8000/serie/produttivita_nazionale'
+        );
+        const data = await response.json();
+
+        // Estrai anni e valori
+        const labels = data.map((x) => x.anno);
+        const values = data.map((x) => x.produttivita_in_migliaia_euro);
+
+        const ctx = document.getElementById('prodChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Produttività (migliaia di euro)',
+                data: values,
+                borderColor: 'blue',
+                backgroundColor: 'rgba(0,0,255,0.1)',
+                fill: true,
+                tension: 0.1,
+                pointRadius: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            scales: {
+              x: { title: { display: true, text: 'Anno' } },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Produttività (migliaia di euro)',
+                },
+              },
+            },
+          },
+        });
+      }
+      loadChartData();
+    </script>
+  </body>
+</html>

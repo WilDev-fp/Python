@@ -2,10 +2,20 @@ from fastapi import FastAPI, Query, HTTPException
 from services.produttivita_service import ProduttivitaService
 from services.importanza_service import ImportanzaService
 from services.occupazione_service import OccupazioneService
+from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import sqlite3
 
 app = FastAPI()
+
+# Abilita CORS per tutti i domini (sviluppo locale, va bene!)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # oppure ["http://127.0.0.1:5500"] per sicurezza
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Inizializza i servizi (puoi anche metterli come dependency)
 prod_service = ProduttivitaService(db_path='./data/pesca.db')
